@@ -5,19 +5,23 @@ using UnityEngine;
 public class Kitchen : MonoBehaviour, IInteractor
 {
     [SerializeField] KitchenObject kitchenObj;
-    [SerializeField] KitchenObjectSO koso;
 
     [SerializeField] private Transform counterTopPoint;
 
-    public void Interact()
+    public void Interact(KitchenObject objOnHand)
     {
-        if (kitchenObj == null)
+        // 키친이 비면 받은 아이템 가지기
+        if (!HasKitchenObj())
         {
-            // TODO : koso를 Player에서 받아서 할 것.
-            GameObject kitchenObjNew = Instantiate(koso.obj, counterTopPoint);
-            kitchenObj = kitchenObjNew.GetComponent<KitchenObject>();
+            GameObject o = Instantiate(objOnHand.GetKitchenObjectSO().prefab, counterTopPoint);
+            o.GetComponent<KitchenObject>().SetKitchen(this);
+            kitchenObj = o.GetComponent<KitchenObject>();
+            Player.Instance.RemoveObjOnHand();
+        }
 
-            kitchenObj.SetKitchen(this);
+        else
+        {
+            Debug.Log(kitchenObj.GetKitchen());
         }
     }
 
@@ -44,5 +48,10 @@ public class Kitchen : MonoBehaviour, IInteractor
     public KitchenObject GetKitchenObj()
     {
         return kitchenObj;
+    }
+
+    bool HasKitchenObject()
+    {
+        return kitchenObj != null;
     }
 }

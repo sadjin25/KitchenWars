@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
         public IInteractor selectedInteractor_;
     }
 
+    [SerializeField] private KitchenObject objOnHand;
+    [SerializeField] private Transform onHandTransform;
+
     void Awake()
     {
         gameInputs.OnInteractAction += OnInputInteraction;
@@ -44,6 +47,12 @@ public class Player : MonoBehaviour
     {
         Move();
         SelectFacedInteractor();
+        OnHandObjVisual();
+    }
+
+    void OnHandObjVisual()
+    {
+        //objOnHand.GetKitchenObjectSO().prefab
     }
 
     void Move()
@@ -54,15 +63,20 @@ public class Player : MonoBehaviour
         {
             lastMoveDir = moveDir;
         }
+        RotateModel(lastMoveDir);
         rb.velocity = new Vector3(XY.x * speed, 0f, XY.y * speed);
     }
 
+    void RotateModel(Vector3 moveDir)
+    {
+        transform.forward = moveDir;
+    }
 
     void OnInputInteraction(object sender, EventArgs e)
     {
         if (selectedInteractor != null)
         {
-            selectedInteractor.Interact();
+            selectedInteractor.Interact(objOnHand);
         }
     }
 
@@ -95,5 +109,10 @@ public class Player : MonoBehaviour
         {
             selectedInteractor_ = selectedInteractor
         });
+    }
+
+    public void RemoveObjOnHand()
+    {
+        objOnHand = null;
     }
 }

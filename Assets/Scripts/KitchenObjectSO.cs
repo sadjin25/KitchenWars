@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "KitchenObjects", menuName = "ScriptableObjects/KitchenScriptableObject")]
 public class KitchenObjectSO : ScriptableObject
 {
-    public GameObject obj;
+    public GameObject prefab;
     public Sprite sprite;
 }

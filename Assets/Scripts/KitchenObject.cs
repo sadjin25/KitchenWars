@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KitchenObject : MonoBehaviour
+public abstract class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
 
-    Kitchen kitchen;
+    [SerializeField] Kitchen kitchen;
 
     public Kitchen GetKitchen()
     {
@@ -15,14 +15,18 @@ public class KitchenObject : MonoBehaviour
 
     public void SetKitchen(Kitchen kitchenToSet)
     {
-        if (kitchenToSet != null)
+        if (kitchenToSet == null)
         {
-            kitchen.ClearKitchenObj();
-            kitchen = kitchenToSet;
-            kitchen.SelectKitchenObj(this);
-            transform.parent = kitchen.GetKitchenTopTransform();
-            transform.localPosition = Vector3.zero;
+            Debug.LogError("Kitchen is NULL!");
+            return;
         }
+
+        kitchenToSet.ClearKitchenObj();
+
+        kitchen = kitchenToSet;
+        kitchen.SelectKitchenObj(this);
+        transform.parent = kitchen.GetKitchenTopTransform();    // transform parent? : Kitchen Object Instance.
+        transform.localPosition = Vector3.zero;
     }
 
     public KitchenObjectSO GetKitchenObjectSO()

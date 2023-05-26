@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInteractor
+public class Tomato : KitchenObject
 {
-    public void Interact(KitchenObject objOnHand);
+
 }
