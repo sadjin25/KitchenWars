@@ -6,14 +6,14 @@ public abstract class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
 
-    [SerializeField] Kitchen kitchen;
+    [SerializeField] ITable kitchen;
 
-    public Kitchen GetKitchen()
+    public ITable GetKitchen()
     {
         return kitchen;
     }
 
-    public void SetKitchen(Kitchen kitchenToSet)
+    public void SetKitchen(ITable kitchenToSet)
     {
         if (kitchenToSet == null)
         {

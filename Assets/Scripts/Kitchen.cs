@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kitchen : MonoBehaviour, IInteractor
+public class Kitchen : MonoBehaviour, ITable, IInteractor
 {
     [SerializeField] KitchenObject kitchenObj;
 
@@ -50,7 +50,7 @@ public class Kitchen : MonoBehaviour, IInteractor
         return kitchenObj;
     }
 
-    bool HasKitchenObject()
+    public bool HasKitchenObject()
     {
         return kitchenObj != null;
     }
