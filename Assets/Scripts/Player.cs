@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IKitchenObjHolder
 {
     public static Player Instance
     {
@@ -30,9 +30,12 @@ public class Player : MonoBehaviour
     [SerializeField] private KitchenObject objOnHand;
     [SerializeField] private Transform onHandTransform;
 
+    public event EventHandler OnObjChanging;
+
     void Awake()
     {
         gameInputs.OnInteractAction += OnInputInteraction;
+        OnObjChanging += DestroyObjInstance;
         if (Instance == null)
         {
             Instance = this;
@@ -41,19 +44,21 @@ public class Player : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (objOnHand)
+        {
+            SetKitchenObj(objOnHand);
+        }
     }
 
     void Update()
     {
         Move();
         SelectFacedInteractor();
-        OnHandObjVisual();
     }
 
-    void OnHandObjVisual()
-    {
-        //objOnHand.GetKitchenObjectSO().prefab
-    }
+    #region PlayerControl
+
 
     void Move()
     {
@@ -111,8 +116,48 @@ public class Player : MonoBehaviour
         });
     }
 
-    public void RemoveObjOnHand()
+
+    #endregion
+
+    #region IKitchenObjHolder
+
+    public Transform GetKitchenObjLocation()
     {
+        return onHandTransform;
+    }
+
+    public void SetKitchenObj(KitchenObject obj)
+    {
+        OnObjChanging?.Invoke(this, EventArgs.Empty);
+
+        GameObject o = Instantiate(obj.GetKitchenObjectSO().prefab, onHandTransform);
+        o.GetComponent<KitchenObject>().SetKitchenObjHolder(this);
+        objOnHand = o.GetComponent<KitchenObject>();
+    }
+
+    public void ClearKitchenObj()
+    {
+        OnObjChanging?.Invoke(this, EventArgs.Empty);
         objOnHand = null;
     }
+
+    public bool HasKitchenObj()
+    {
+        return objOnHand != null;
+    }
+
+    public KitchenObject GetKitchenObj()
+    {
+        return objOnHand;
+    }
+
+    public void DestroyObjInstance(object sender, EventArgs e)
+    {
+        for (int i = 0; i < onHandTransform.childCount; i++)
+        {
+            Destroy(onHandTransform.GetChild(i).gameObject);
+        }
+    }
+
+    #endregion
 }

@@ -6,26 +6,22 @@ public abstract class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
 
-    [SerializeField] ITable kitchen;
+    [SerializeField] IKitchenObjHolder kitchen;
 
-    public ITable GetKitchen()
+    public IKitchenObjHolder GetKitchenObjHolder()
     {
         return kitchen;
     }
 
-    public void SetKitchen(ITable kitchenToSet)
+    public void SetKitchenObjHolder(IKitchenObjHolder kitchenToSet)
     {
         if (kitchenToSet == null)
         {
             Debug.LogError("Kitchen is NULL!");
             return;
         }
-
-        kitchenToSet.ClearKitchenObj();
-
         kitchen = kitchenToSet;
-        kitchen.SelectKitchenObj(this);
-        transform.parent = kitchen.GetKitchenTopTransform();    // transform parent? : Kitchen Object Instance.
+        transform.parent = kitchen.GetKitchenObjLocation();    // transform parent? : Kitchen Object Instance.
         transform.localPosition = Vector3.zero;
     }
 

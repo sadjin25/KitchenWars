@@ -1,42 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Kitchen : MonoBehaviour, ITable, IInteractor
+public class Kitchen : MonoBehaviour, IKitchenObjHolder, IInteractor
 {
     [SerializeField] KitchenObject kitchenObj;
 
     [SerializeField] private Transform counterTopPoint;
 
-    public void Interact(KitchenObject objOnHand)
-    {
-        // 키친이 비면 받은 아이템 가지기
-        if (!HasKitchenObj())
-        {
-            GameObject o = Instantiate(objOnHand.GetKitchenObjectSO().prefab, counterTopPoint);
-            o.GetComponent<KitchenObject>().SetKitchen(this);
-            kitchenObj = o.GetComponent<KitchenObject>();
-            Player.Instance.RemoveObjOnHand();
-        }
+    public event EventHandler OnObjChanging;
 
-        else
+    void Awake()
+    {
+        OnObjChanging += DestroyObjInstance;
+        if (kitchenObj)
         {
-            Debug.Log(kitchenObj.GetKitchen());
+            SetKitchenObj(kitchenObj);
         }
     }
 
-    public Transform GetKitchenTopTransform()
+
+    public void Interact(KitchenObject objOnHand)
+    {
+        //WARNING : always write SetKitchenObj before Clear! else, make temp var to copy and swap.
+
+        // 키친이 비면 받은 아이템 가지기
+        if (!HasKitchenObj() && objOnHand != null)
+        {
+            SetKitchenObj(objOnHand);
+            Player.Instance.ClearKitchenObj();
+        }
+        // if kitchen has obj, then swap with objOnHand
+        else
+        {
+            if (objOnHand == null)
+            {
+                Player.Instance.SetKitchenObj(kitchenObj);
+                ClearKitchenObj();
+            }
+            else
+            {
+                // WARNING : Please! Deep Copy this! but no polymorphism.
+                KitchenObject kitchenObjectTemp = objOnHand;
+
+                SetKitchenObj(objOnHand);
+                Player.Instance.SetKitchenObj(kitchenObjectTemp);
+            }
+        }
+    }
+
+    public Transform GetKitchenObjLocation()
     {
         return counterTopPoint;
     }
 
-    public void SelectKitchenObj(KitchenObject obj)
+    public void SetKitchenObj(KitchenObject obj)
     {
-        kitchenObj = obj;
+        OnObjChanging?.Invoke(this, EventArgs.Empty);
+
+        GameObject o = Instantiate(obj.GetKitchenObjectSO().prefab, counterTopPoint);
+        o.GetComponent<KitchenObject>().SetKitchenObjHolder(this);
+        kitchenObj = o.GetComponent<KitchenObject>();
     }
 
     public void ClearKitchenObj()
     {
+        OnObjChanging?.Invoke(this, EventArgs.Empty);
         kitchenObj = null;
     }
 
@@ -50,8 +80,11 @@ public class Kitchen : MonoBehaviour, ITable, IInteractor
         return kitchenObj;
     }
 
-    public bool HasKitchenObject()
+    public void DestroyObjInstance(object sender, EventArgs e)
     {
-        return kitchenObj != null;
+        for (int i = 0; i < counterTopPoint.childCount; i++)
+        {
+            Destroy(counterTopPoint.GetChild(i).gameObject);
+        }
     }
 }
