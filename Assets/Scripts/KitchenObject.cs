@@ -2,11 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class KitchenObject : MonoBehaviour
+public class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
 
     [SerializeField] IKitchenObjHolder kitchen;
+
+    public KitchenObject Clone()
+    {
+        // For Deep Copying
+        KitchenObject toReturn = new KitchenObject();
+        toReturn.kitchenObjectSO = this.kitchenObjectSO;
+        toReturn.kitchen = this.kitchen;
+        return toReturn;
+    }
 
     public IKitchenObjHolder GetKitchenObjHolder()
     {
