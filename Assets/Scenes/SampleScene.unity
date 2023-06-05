@@ -478,13 +478,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9407020e5386a45945115fa13bcf0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kitchenObj: {fileID: 380497238}
+  objTransform: {fileID: 2131470609}
   gameInputs: {fileID: 1527859704}
   rb: {fileID: 380497237}
   interactionMask:
     serializedVersion: 2
     m_Bits: 64
-  objOnHand: {fileID: 380497240}
-  onHandTransform: {fileID: 2131470609}
 --- !u!54 &380497237
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -514,19 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: 66bdb610856918e40ae678d5a00b32f3, type: 2}
---- !u!114 &380497240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 380497233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c884b9a2b8461f48a6d779eed0c903a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kitchenObjectSO: {fileID: 11400000, guid: d44666a41b9d92d42b2eac3924fcbf2d, type: 2}
+  kitchen: {fileID: 0}
 --- !u!1 &503643250
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,7 +732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObj: {fileID: 944574723}
-  counterTopPoint: {fileID: 503643251}
+  objTransform: {fileID: 503643251}
 --- !u!4 &944574722
 Transform:
   m_ObjectHideFlags: 0
@@ -776,6 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: d44666a41b9d92d42b2eac3924fcbf2d, type: 2}
+  kitchen: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1270,6 +1259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: 66bdb610856918e40ae678d5a00b32f3, type: 2}
+  kitchen: {fileID: 0}
 --- !u!1 &1991473005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,7 +1291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObj: {fileID: 0}
-  counterTopPoint: {fileID: 1712355700}
+  objTransform: {fileID: 1712355700}
 --- !u!4 &1991473007
 Transform:
   m_ObjectHideFlags: 0

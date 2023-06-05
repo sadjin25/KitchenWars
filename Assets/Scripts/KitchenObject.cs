@@ -6,7 +6,7 @@ public class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
 
-    [SerializeField] IKitchenObjHolder kitchen;
+    [SerializeField] KitchenObjHolder kitchen;
 
     public KitchenObject Clone()
     {
@@ -17,12 +17,12 @@ public class KitchenObject : MonoBehaviour
         return toReturn;
     }
 
-    public IKitchenObjHolder GetKitchenObjHolder()
+    public KitchenObjHolder GetKitchenObjHolder()
     {
         return kitchen;
     }
 
-    public void SetKitchenObjHolder(IKitchenObjHolder kitchenToSet)
+    public void SetKitchenObjHolder(KitchenObjHolder kitchenToSet)
     {
         if (kitchenToSet == null)
         {
