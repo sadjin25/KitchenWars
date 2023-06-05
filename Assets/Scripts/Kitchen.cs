@@ -23,8 +23,8 @@ public class Kitchen : MonoBehaviour, IKitchenObjHolder, IInteractor
 
     public void Interact(KitchenObject objOnHand)
     {
-        //WARNING : always write SetKitchenObj before Clear! else, make temp var to copy and swap.
-
+        //WARNING : always write SetKitchenObj before Clear() other side!
+        // ? : Copying Component goes wrong.. maybe? 
         // 키친이 비면 받은 아이템 가지기
         if (!HasKitchenObj() && objOnHand != null)
         {
@@ -41,10 +41,11 @@ public class Kitchen : MonoBehaviour, IKitchenObjHolder, IInteractor
             }
             else
             {
-                // WARNING : Please! Deep Copy this! but no polymorphism.
-                KitchenObject kitchenObjectTemp = objOnHand;
+                // WARNING : Please! Deep Copy this!
+                KitchenObject kitchenObjectTemp = kitchenObj.Clone();
 
                 SetKitchenObj(objOnHand);
+                Player.Instance.ClearKitchenObj();
                 Player.Instance.SetKitchenObj(kitchenObjectTemp);
             }
         }
