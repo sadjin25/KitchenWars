@@ -6,7 +6,7 @@ using System;
 public class SelectedInteractorVisual : MonoBehaviour
 {
     [SerializeField] private IInteractor selectedObj;
-    [SerializeField] private GameObject selectedVisualObj;
+    [SerializeField] private GameObject[] selectedVisualObjArr;
 
     void Start()
     {
@@ -29,11 +29,17 @@ public class SelectedInteractorVisual : MonoBehaviour
 
     void Show()
     {
-        selectedVisualObj.SetActive(true);
+        for (int i = 0; i < selectedVisualObjArr.Length; i++)
+        {
+            selectedVisualObjArr[i].SetActive(true);
+        }
     }
 
     void Hide()
     {
-        selectedVisualObj.SetActive(false);
+        for (int i = 0; i < selectedVisualObjArr.Length; i++)
+        {
+            selectedVisualObjArr[i].SetActive(false);
+        }
     }
 }
