@@ -5,6 +5,9 @@ using UnityEngine;
 public class KitchenContainer : KitchenObjHolder, IInteractor
 {
     // WARNING : Container has useless field(top point transform).
+
+    [SerializeField] GameObject kitchenVisual;
+
     public void Interact(KitchenObject kitchenObj_)
     {
         // If Player has item, do nothing. else, give item to player.
