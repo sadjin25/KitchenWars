@@ -6,8 +6,6 @@ using System;
 public class KitchenContainer : KitchenObjHolder, IInteractor
 {
     // WARNING : Container has useless field(top point transform).
-
-    [SerializeField] GameObject kitchenVisual;
     public event EventHandler OnInteract;
 
     public void Interact(KitchenObject kitchenObj_)
