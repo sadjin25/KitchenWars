@@ -107,6 +107,10 @@ public class Player : KitchenObjHolder
         });
     }
 
+    public bool IsMoving()
+    {
+        return rb.velocity != Vector3.zero;
+    }
 
     #endregion
 
