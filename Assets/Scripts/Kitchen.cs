@@ -5,6 +5,8 @@ using System;
 
 public class Kitchen : KitchenObjHolder, IInteractor
 {
+    public event EventHandler OnInteract;
+
     void Awake()
     {
         KitchenObjHolderInit();
@@ -14,8 +16,9 @@ public class Kitchen : KitchenObjHolder, IInteractor
     public void Interact(KitchenObject objOnHand)
     {
         //WARNING : always write SetKitchenObj before Clear() other side!
-        // ? : Copying Component goes wrong.. maybe? 
-        // 키친이 비면 받은 아이템 가지기
+        OnInteract?.Invoke(this, EventArgs.Empty);
+
+        // when kitchen is empty, then get the item from objOnHand
         if (!HasKitchenObj() && objOnHand != null)
         {
             SetKitchenObj(objOnHand);
