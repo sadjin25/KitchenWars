@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: c895c5dbf71d86441bd57581a82b8315
+guid: 8f5da7716b3caa0468c9cc947bb93187
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - kitchenObjectSO: {fileID: 11400000, guid: 66bdb610856918e40ae678d5a00b32f3, type: 2}
-  - cuttedKitchenObjectSO: {fileID: 11400000, guid: 6d528ad81a4967446952b68c43d7475b, type: 2}
+  - kitchenObjectSO: {fileID: 11400000, guid: 6d528ad81a4967446952b68c43d7475b, type: 2}
   - kitchen: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}

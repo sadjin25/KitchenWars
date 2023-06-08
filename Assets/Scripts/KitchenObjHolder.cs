@@ -57,4 +57,9 @@ public abstract class KitchenObjHolder : MonoBehaviour
             Destroy(objTransform.GetChild(i).gameObject);
         }
     }
+
+    public bool IsMyObjCutted()
+    {
+        return kitchenObj.GetKitchenObjectSO().isCutted;
+    }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
+    [SerializeField] KitchenObjectSO cuttedKitchenObjectSO;
 
     [SerializeField] KitchenObjHolder kitchen;
 
@@ -37,5 +38,13 @@ public class KitchenObject : MonoBehaviour
     public KitchenObjectSO GetKitchenObjectSO()
     {
         return kitchenObjectSO;
+    }
+
+    public KitchenObject GetCuttedObj()
+    {
+        KitchenObject cutted = new KitchenObject();
+        cutted.kitchenObjectSO = cuttedKitchenObjectSO;
+        cutted.kitchen = this.kitchen;
+        return cutted;
     }
 }
