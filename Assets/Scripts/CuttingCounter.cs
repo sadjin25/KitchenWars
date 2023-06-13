@@ -7,6 +7,11 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
 {
     public event EventHandler OnInteract;
 
+    void Awake()
+    {
+        KitchenObjHolderInit();
+    }
+
     public void Interact(KitchenObject objOnHand)
     {
         //WARNING : always write SetKitchenObj before Clear() other side!
@@ -30,20 +35,20 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                 }
                 else
                 {
-                    CuttingObj();
+                    CuttingAndUpdateObj();
                 }
             }
             // if player has objOnHand; can't cut!
             else
             {
-
+                Debug.LogError("Player couldn't cut it because he has something in hand");
             }
         }
 
     }
 
 
-    void CuttingObj()
+    void CuttingAndUpdateObj()
     {
         if (IsMyObjCutted()) return;
 

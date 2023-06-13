@@ -1324,7 +1324,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 96070476848630030, guid: 25a7473b4f74d9b4799d1f911b5a5a3c, type: 3}
   m_PrefabInstance: {fileID: 96070475386225402}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1799064569
+--- !u!114 &1799064565
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1337,7 +1337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: 66bdb610856918e40ae678d5a00b32f3, type: 2}
-  cuttedKitchenObjectSO: {fileID: 0}
+  cuttedKitchenObjectSO: {fileID: 11400000, guid: 6d528ad81a4967446952b68c43d7475b, type: 2}
   kitchen: {fileID: 0}
 --- !u!1 &1923246643 stripped
 GameObject:
@@ -1625,7 +1625,7 @@ PrefabInstance:
     - target: {fileID: 96070476848630028, guid: 25a7473b4f74d9b4799d1f911b5a5a3c, type: 3}
       propertyPath: kitchenObj
       value: 
-      objectReference: {fileID: 1799064569}
+      objectReference: {fileID: 1799064565}
     - target: {fileID: 96070476848630029, guid: 25a7473b4f74d9b4799d1f911b5a5a3c, type: 3}
       propertyPath: m_RootOrder
       value: 7
