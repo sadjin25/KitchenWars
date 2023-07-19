@@ -6,6 +6,7 @@ using System;
 public class CuttingCounter : KitchenObjHolder, IInteractor
 {
     public event EventHandler OnInteract;
+    public event EventHandler OnCut;
     public event EventHandler<OnProgressChangedEventArgs> OnProgressChanged;
     public class OnProgressChangedEventArgs : EventArgs
     {
@@ -44,6 +45,7 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                 else
                 {
                     CuttingAndUpdateObj();
+                    OnCut?.Invoke(this, EventArgs.Empty);
                     if (kitchenObj.GetKitchenObjectSO().cuttingCnt > 0)
                     {
                         OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
