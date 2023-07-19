@@ -60,6 +60,6 @@ public abstract class KitchenObjHolder : MonoBehaviour
 
     public bool IsMyObjCutted()
     {
-        return kitchenObj.GetKitchenObjectSO().isCutted;
+        return kitchenObj.isCutted;
     }
 }

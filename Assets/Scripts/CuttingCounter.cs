@@ -6,6 +6,7 @@ using System;
 public class CuttingCounter : KitchenObjHolder, IInteractor
 {
     public event EventHandler OnInteract;
+    [SerializeField] KitchenObjectSO[] cuttableArray;
 
     void Awake()
     {
@@ -28,8 +29,9 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
         {
             if (objOnHand == null)
             {
-                if (IsMyObjCutted())
+                if (IsMyObjCutted() || CheckCuttable(kitchenObj) == false)
                 {
+                    // ERROR : delete all the progresses of cut.
                     Player.Instance.SetKitchenObj(kitchenObj);
                     ClearKitchenObj();
                 }
@@ -47,12 +49,27 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
 
     }
 
-
     void CuttingAndUpdateObj()
     {
         if (IsMyObjCutted()) return;
 
-        KitchenObject cuttedObj = kitchenObj.GetCuttedObj();
-        SetKitchenObj(cuttedObj);
+        if (kitchenObj.CutAndCheckCutted())
+        {
+            SetKitchenObj(kitchenObj.GetCuttedObj());
+            Debug.Log("Set!");
+        }
+    }
+
+    bool CheckCuttable(KitchenObject objOnTable)
+    {
+        KitchenObjectSO inputSO = objOnTable.GetKitchenObjectSO();
+        foreach (KitchenObjectSO cuttable in cuttableArray)
+        {
+            if (cuttable == inputSO)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

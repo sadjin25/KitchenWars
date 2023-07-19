@@ -5,10 +5,12 @@ using UnityEngine;
 public class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
-    [SerializeField] KitchenObjectSO cuttedKitchenObjectSO;
+    [SerializeField] public KitchenObjectSO cuttedKitchenObjectSO;
 
     [SerializeField] KitchenObjHolder kitchen;
 
+    public bool isCutted = false;
+    int currentCuttedCnt = 0;
     public KitchenObject Clone()
     {
         // For Deep Copying
@@ -38,6 +40,17 @@ public class KitchenObject : MonoBehaviour
     public KitchenObjectSO GetKitchenObjectSO()
     {
         return kitchenObjectSO;
+    }
+
+    public bool CutAndCheckCutted()
+    {
+        currentCuttedCnt++;
+        if (currentCuttedCnt >= kitchenObjectSO.cuttingCnt)
+        {
+            isCutted = true;
+            return true;
+        }
+        return false;
     }
 
     public KitchenObject GetCuttedObj()

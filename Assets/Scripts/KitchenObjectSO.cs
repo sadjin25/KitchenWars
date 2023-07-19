@@ -7,5 +7,5 @@ public class KitchenObjectSO : ScriptableObject
 {
     public GameObject prefab;
     public Sprite sprite;
-    public bool isCutted;
+    public int cuttingCnt;
 }

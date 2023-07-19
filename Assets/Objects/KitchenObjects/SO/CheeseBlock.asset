@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc54d3b4f6daf2e448548a9f0451ee63, type: 3}
   m_Name: CheeseBlock
   m_EditorClassIdentifier: 
-  obj: {fileID: 0}
+  prefab: {fileID: 0}
   sprite: {fileID: 0}
+  cuttingCnt: 2
