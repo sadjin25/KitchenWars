@@ -42,6 +42,11 @@ public class KitchenObject : MonoBehaviour
         return kitchenObjectSO;
     }
 
+    public int GetCuttedCount()
+    {
+        return currentCuttedCnt;
+    }
+
     public bool CutAndCheckCutted()
     {
         currentCuttedCnt++;

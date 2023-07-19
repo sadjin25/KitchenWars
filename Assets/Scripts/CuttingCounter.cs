@@ -6,6 +6,12 @@ using System;
 public class CuttingCounter : KitchenObjHolder, IInteractor
 {
     public event EventHandler OnInteract;
+    public event EventHandler<OnProgressChangedEventArgs> OnProgressChanged;
+    public class OnProgressChangedEventArgs : EventArgs
+    {
+        public float progressNormalized;
+    }
+
     [SerializeField] KitchenObjectSO[] cuttableArray;
 
     void Awake()
@@ -38,6 +44,10 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                 else
                 {
                     CuttingAndUpdateObj();
+                    OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                    {
+                        progressNormalized = (float)kitchenObj.GetCuttedCount() / kitchenObj.GetKitchenObjectSO().cuttingCnt
+                    });
                 }
             }
             // if player has objOnHand; can't cut!
