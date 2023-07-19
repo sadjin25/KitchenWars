@@ -44,10 +44,20 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                 else
                 {
                     CuttingAndUpdateObj();
-                    OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                    if (kitchenObj.GetKitchenObjectSO().cuttingCnt > 0)
                     {
-                        progressNormalized = (float)kitchenObj.GetCuttedCount() / kitchenObj.GetKitchenObjectSO().cuttingCnt
-                    });
+                        OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                        {
+                            progressNormalized = (float)kitchenObj.GetCuttedCount() / kitchenObj.GetKitchenObjectSO().cuttingCnt
+                        });
+                    }
+                    else
+                    {
+                        OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                        {
+                            progressNormalized = 1f
+                        });
+                    }
                 }
             }
             // if player has objOnHand; can't cut!
