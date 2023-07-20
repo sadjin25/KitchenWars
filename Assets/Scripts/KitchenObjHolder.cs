@@ -34,6 +34,15 @@ public abstract class KitchenObjHolder : MonoBehaviour
         kitchenObj = o.GetComponent<KitchenObject>();
     }
 
+    public virtual void SetKitchenObj(KitchenObjectSO so)
+    {
+        OnObjChanging?.Invoke(this, EventArgs.Empty);
+
+        GameObject o = Instantiate(so.prefab, objTransform);
+        o.GetComponent<KitchenObject>().SetKitchenObjHolder(this);
+        kitchenObj = o.GetComponent<KitchenObject>();
+    }
+
     public virtual void ClearKitchenObj()
     {
         OnObjChanging?.Invoke(this, EventArgs.Empty);
@@ -56,10 +65,5 @@ public abstract class KitchenObjHolder : MonoBehaviour
         {
             Destroy(objTransform.GetChild(i).gameObject);
         }
-    }
-
-    public bool IsMyObjCutted()
-    {
-        return kitchenObj.isCutted;
     }
 }

@@ -5,12 +5,14 @@ using UnityEngine;
 public class KitchenObject : MonoBehaviour
 {
     [SerializeField] KitchenObjectSO kitchenObjectSO;
-    [SerializeField] public KitchenObjectSO cuttedKitchenObjectSO;
+    [SerializeField] CuttedKitchenObjectSO cuttedKitchenObjectSO;
+    [SerializeField] CookedKitchenObjectSO cookedKitchenObjectSO;
 
     [SerializeField] KitchenObjHolder kitchen;
 
-    public bool isCutted = false;
-    int currentCuttedCnt = 0;
+    int currentCuttedCnt;
+    int currentCookTime;
+
     public KitchenObject Clone()
     {
         // For Deep Copying
@@ -41,6 +43,14 @@ public class KitchenObject : MonoBehaviour
     {
         return kitchenObjectSO;
     }
+    public CuttedKitchenObjectSO GetCuttedSO()
+    {
+        return cuttedKitchenObjectSO;
+    }
+    public CookedKitchenObjectSO GetCookedSO()
+    {
+        return cookedKitchenObjectSO;
+    }
 
     public int GetCuttedCount()
     {
@@ -50,19 +60,10 @@ public class KitchenObject : MonoBehaviour
     public bool CutAndCheckCutted()
     {
         currentCuttedCnt++;
-        if (currentCuttedCnt >= kitchenObjectSO.cuttingCnt)
+        if (currentCuttedCnt >= cuttedKitchenObjectSO.cuttingCnt)
         {
-            isCutted = true;
             return true;
         }
         return false;
-    }
-
-    public KitchenObject GetCuttedObj()
-    {
-        KitchenObject cutted = new KitchenObject();
-        cutted.kitchenObjectSO = cuttedKitchenObjectSO;
-        cutted.kitchen = this.kitchen;
-        return cutted;
     }
 }

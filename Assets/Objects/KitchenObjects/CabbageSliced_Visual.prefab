@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3812876574508226176}
-  - component: {fileID: 5979590929783852475}
+  - component: {fileID: -1849759799687179567}
   m_Layer: 0
   m_Name: CabbageSliced_Visual
   m_TagString: Untagged
@@ -37,7 +37,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5979590929783852475
+--- !u!114 &-1849759799687179567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,10 +46,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3812876574508226177}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac37d4cf1e22af6448abba6ed7e0c7e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cecb2aa19245ea4f81a6a2d8499d448, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: 67529f356c49a9a4bae34a8aee630f9c, type: 2}
+  cuttedKitchenObjectSO: {fileID: 0}
+  cookedKitchenObjectSO: {fileID: 0}
   kitchen: {fileID: 0}
 --- !u!1001 &5405605511503456485
 PrefabInstance:

@@ -13,7 +13,7 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
         public float progressNormalized;
     }
 
-    [SerializeField] KitchenObjectSO[] cuttableArray;
+    [SerializeField] CuttedKitchenObjectSO[] cuttableArray;
 
     void Awake()
     {
@@ -36,7 +36,7 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
         {
             if (objOnHand == null)
             {
-                if (IsMyObjCutted() || CheckCuttable(kitchenObj) == false)
+                if (IsCuttable(kitchenObj.GetKitchenObjectSO()) == false)
                 {
                     // ERROR : delete all the progresses of cut.
                     Player.Instance.SetKitchenObj(kitchenObj);
@@ -46,11 +46,11 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                 {
                     CuttingAndUpdateObj();
                     OnCut?.Invoke(this, EventArgs.Empty);
-                    if (kitchenObj.GetKitchenObjectSO().cuttingCnt > 0)
+                    if (kitchenObj.GetCuttedCount() > 0)
                     {
                         OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
                         {
-                            progressNormalized = (float)kitchenObj.GetCuttedCount() / kitchenObj.GetKitchenObjectSO().cuttingCnt
+                            progressNormalized = (float)kitchenObj.GetCuttedCount() / kitchenObj.GetCuttedSO().cuttingCnt
                         });
                     }
                     else
@@ -68,30 +68,41 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                 Debug.LogError("Player couldn't cut it because he has something in hand");
             }
         }
-
     }
 
     void CuttingAndUpdateObj()
     {
-        if (IsMyObjCutted()) return;
-
         if (kitchenObj.CutAndCheckCutted())
         {
-            SetKitchenObj(kitchenObj.GetCuttedObj());
-            Debug.Log("Set!");
+            KitchenObjectSO outputSO = GetOutputFromInput(kitchenObj.GetKitchenObjectSO());
+            if (outputSO == null) return;
+
+            SetKitchenObj(outputSO);
         }
     }
 
-    bool CheckCuttable(KitchenObject objOnTable)
+    bool IsCuttable(KitchenObjectSO input)
     {
-        KitchenObjectSO inputSO = objOnTable.GetKitchenObjectSO();
-        foreach (KitchenObjectSO cuttable in cuttableArray)
+        foreach (CuttedKitchenObjectSO cuttable in cuttableArray)
         {
-            if (cuttable == inputSO)
+            if (cuttable.input == input)
             {
                 return true;
             }
         }
         return false;
     }
+
+    KitchenObjectSO GetOutputFromInput(KitchenObjectSO input)
+    {
+        foreach (CuttedKitchenObjectSO cuttable in cuttableArray)
+        {
+            if (cuttable.input == input)
+            {
+                return cuttable.output;
+            }
+        }
+        return null;
+    }
+
 }

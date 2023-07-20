@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc54d3b4f6daf2e448548a9f0451ee63, type: 3}
-  m_Name: Plate
+  m_Script: {fileID: 11500000, guid: 8bf25c4487cd5404c9b4acce0f506087, type: 3}
+  m_Name: CookedPatty
   m_EditorClassIdentifier: 
-  obj: {fileID: 0}
-  sprite: {fileID: 0}
+  input: {fileID: 11400000, guid: 6c60621a06bef3f4d94e8a52a5201756, type: 2}
+  output: {fileID: 11400000, guid: a4f76a45e16b842428a3f6edf3fae812, type: 2}
+  cookTime: 3
