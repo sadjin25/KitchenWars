@@ -63,6 +63,7 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                 }
             }
             // if player has objOnHand; can't cut!
+            // ERROR : can't swap the item
             else
             {
                 Debug.LogError("Player couldn't cut it because he has something in hand");
