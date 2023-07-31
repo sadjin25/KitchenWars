@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CuttingCounter : KitchenObjHolder, IInteractor
+public class CuttingCounter : KitchenObjHolder, IInteractor, IHasProgress
 {
     public event EventHandler OnInteract;
     public event EventHandler OnCut;
-    public event EventHandler<OnProgressChangedEventArgs> OnProgressChanged;
-    public class OnProgressChangedEventArgs : EventArgs
-    {
-        public float progressNormalized;
-    }
+    public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
 
     [SerializeField] CuttedKitchenObjectSO[] cuttableArray;
 
@@ -48,14 +44,14 @@ public class CuttingCounter : KitchenObjHolder, IInteractor
                     OnCut?.Invoke(this, EventArgs.Empty);
                     if (kitchenObj.GetCuttedCount() > 0)
                     {
-                        OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
                         {
                             progressNormalized = (float)kitchenObj.GetCuttedCount() / kitchenObj.GetCuttedSO().cuttingCnt
                         });
                     }
                     else
                     {
-                        OnProgressChanged?.Invoke(this, new OnProgressChangedEventArgs
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
                         {
                             progressNormalized = 1f
                         });

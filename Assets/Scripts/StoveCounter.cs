@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class StoveCounter : KitchenObjHolder, IInteractor
+public class StoveCounter : KitchenObjHolder, IInteractor, IHasProgress
 {
     public enum State
     {
@@ -13,6 +13,7 @@ public class StoveCounter : KitchenObjHolder, IInteractor
         Burned,
     }
 
+    public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
     public event EventHandler OnInteract;
     public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
     public class OnStateChangedEventArgs : EventArgs
@@ -41,6 +42,10 @@ public class StoveCounter : KitchenObjHolder, IInteractor
                     break;
                 case State.Frying:
                     cookTimer += Time.deltaTime;
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                    {
+                        progressNormalized = cookTimer / cookedSO.cookTime
+                    });
 
                     if (cookTimer >= cookedSO.cookTime)
                     {
@@ -53,6 +58,10 @@ public class StoveCounter : KitchenObjHolder, IInteractor
 
                 case State.Fried:
                     cookTimer += Time.deltaTime;
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                    {
+                        progressNormalized = cookTimer / cookedSO.cookTime
+                    });
 
                     if (cookTimer >= cookedSO.cookTime)
                     {
@@ -60,6 +69,10 @@ public class StoveCounter : KitchenObjHolder, IInteractor
                         CookAndUpdateObj();
                         state = State.Burned;
                         OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
+                        OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                        {
+                            progressNormalized = 1f
+                        });
                     }
                     break;
 
@@ -80,6 +93,12 @@ public class StoveCounter : KitchenObjHolder, IInteractor
         {
             SetKitchenObj(objOnHand);
             Player.Instance.ClearKitchenObj();
+            if (!IsCookable(objOnHand.GetKitchenObjectSO()))
+            {
+                return;
+            }
+            // BUG : state goes frying even though it's already been fried.
+            //       so... separate recipe like frying / burning
             state = State.Frying;
             OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
             cookTimer = 0f;
@@ -92,6 +111,12 @@ public class StoveCounter : KitchenObjHolder, IInteractor
             {
                 // ERROR : delete all the progresses of cut.
                 Player.Instance.SetKitchenObj(kitchenObj);
+                state = State.Idle;
+                OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
+                OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                {
+                    progressNormalized = 1f
+                });
                 ClearKitchenObj();
 
             }
