@@ -5,32 +5,68 @@ using System;
 
 public class StoveCounter : KitchenObjHolder, IInteractor
 {
+    public enum State
+    {
+        Idle,
+        Frying,
+        Fried,
+        Burned,
+    }
+
     public event EventHandler OnInteract;
+    public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
+    public class OnStateChangedEventArgs : EventArgs
+    {
+        public State state;
+    }
 
     [SerializeField] CookedKitchenObjectSO[] cookableSOArray;
     float cookTimer;
+    State state;
+    CookedKitchenObjectSO cookedSO;
 
     void Awake()
     {
         KitchenObjHolderInit();
+        state = State.Idle;
     }
 
     void Update()
     {
         if (HasKitchenObj() && IsCookable(kitchenObj.GetKitchenObjectSO()))
         {
-            cookTimer += Time.deltaTime;
-            CookedKitchenObjectSO cookedSO = kitchenObj.GetCookedSO();
-
-            if (cookTimer >= cookedSO.cookTime)
+            switch (state)
             {
-                cookTimer = 0f;
-                CookAndUpdateObj();
+                case State.Idle:
+                    break;
+                case State.Frying:
+                    cookTimer += Time.deltaTime;
+
+                    if (cookTimer >= cookedSO.cookTime)
+                    {
+                        cookTimer = 0f;
+                        CookAndUpdateObj();
+                        state = State.Fried;
+                        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
+                    }
+                    break;
+
+                case State.Fried:
+                    cookTimer += Time.deltaTime;
+
+                    if (cookTimer >= cookedSO.cookTime)
+                    {
+                        cookTimer = 0f;
+                        CookAndUpdateObj();
+                        state = State.Burned;
+                        OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
+                    }
+                    break;
+
+                case State.Burned:
+                    break;
             }
-        }
-        else
-        {
-            cookTimer = 0f;
+
         }
     }
 
@@ -44,6 +80,10 @@ public class StoveCounter : KitchenObjHolder, IInteractor
         {
             SetKitchenObj(objOnHand);
             Player.Instance.ClearKitchenObj();
+            state = State.Frying;
+            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
+            cookTimer = 0f;
+            cookedSO = kitchenObj.GetCookedSO();
         }
         // if kitchen has obj
         else
