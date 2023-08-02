@@ -123,7 +123,28 @@ public class StoveCounter : KitchenObjHolder, IInteractor, IHasProgress
             // if player has objOnHand; can't cook!
             else
             {
-                Debug.LogError("Player couldn't cut it because he has something in hand");
+                if (objOnHand.TryGetPlate(out PlateObject plateObject))
+                {
+                    if (!plateObject.TryAddIngredient(GetKitchenObj().GetKitchenObjectSO()))
+                    {
+                        return;
+                    }
+                    state = State.Idle;
+                    OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                    {
+                        progressNormalized = 1f
+                    });
+                    ClearKitchenObj();
+                }
+                else if (GetKitchenObj().TryGetPlate(out plateObject))
+                {
+                    if (!plateObject.TryAddIngredient(Player.Instance.GetKitchenObj().GetKitchenObjectSO()))
+                    {
+                        return;
+                    }
+                    Player.Instance.ClearKitchenObj();
+                }
             }
         }
     }

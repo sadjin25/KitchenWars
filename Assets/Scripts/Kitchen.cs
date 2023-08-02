@@ -34,12 +34,31 @@ public class Kitchen : KitchenObjHolder, IInteractor
             }
             else
             {
-                // WARNING : Please! Deep Copy this!
-                KitchenObject kitchenObjectTemp = kitchenObj.Clone();
+                if (objOnHand.TryGetPlate(out PlateObject plateObject))
+                {
+                    if (!plateObject.TryAddIngredient(GetKitchenObj().GetKitchenObjectSO()))
+                    {
+                        return;
+                    }
+                    ClearKitchenObj();
+                }
+                else if (GetKitchenObj().TryGetPlate(out plateObject))
+                {
+                    if (!plateObject.TryAddIngredient(Player.Instance.GetKitchenObj().GetKitchenObjectSO()))
+                    {
+                        return;
+                    }
+                    Player.Instance.ClearKitchenObj();
+                }
+                else
+                {
+                    // WARNING : Please! Deep Copy this!
+                    KitchenObject kitchenObjectTemp = kitchenObj.Clone();
 
-                SetKitchenObj(objOnHand);
-                Player.Instance.ClearKitchenObj();
-                Player.Instance.SetKitchenObj(kitchenObjectTemp);
+                    SetKitchenObj(objOnHand);
+                    Player.Instance.ClearKitchenObj();
+                    Player.Instance.SetKitchenObj(kitchenObjectTemp);
+                }
             }
         }
     }

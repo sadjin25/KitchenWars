@@ -62,7 +62,22 @@ public class CuttingCounter : KitchenObjHolder, IInteractor, IHasProgress
             // ERROR : can't swap the item
             else
             {
-                Debug.LogError("Player couldn't cut it because he has something in hand");
+                if (objOnHand.TryGetPlate(out PlateObject plateObject))
+                {
+                    if (!plateObject.TryAddIngredient(GetKitchenObj().GetKitchenObjectSO()))
+                    {
+                        return;
+                    }
+                    ClearKitchenObj();
+                }
+                else if (GetKitchenObj().TryGetPlate(out plateObject))
+                {
+                    if (!plateObject.TryAddIngredient(Player.Instance.GetKitchenObj().GetKitchenObjectSO()))
+                    {
+                        return;
+                    }
+                    Player.Instance.ClearKitchenObj();
+                }
             }
         }
     }
