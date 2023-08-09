@@ -21,7 +21,7 @@ public class Kitchen : KitchenObjHolder, IInteractor
         // when kitchen is empty, then get the item from objOnHand
         if (!HasKitchenObj() && objOnHand != null)
         {
-            SetKitchenObj(objOnHand);
+            Player.Instance.GetKitchenObj().SetKitchenObjHolder(this);
             Player.Instance.ClearKitchenObj();
         }
         // if kitchen has obj, then swap with objOnHand
@@ -29,12 +29,13 @@ public class Kitchen : KitchenObjHolder, IInteractor
         {
             if (objOnHand == null)
             {
-                Player.Instance.SetKitchenObj(kitchenObj);
+                GetKitchenObj().SetKitchenObjHolder(Player.Instance);
                 ClearKitchenObj();
             }
             else
             {
-                if (objOnHand.TryGetPlate(out PlateObject plateObject))
+                PlateObject plateObject;
+                if (objOnHand.TryGetPlate(out plateObject))
                 {
                     if (!plateObject.TryAddIngredient(GetKitchenObj().GetKitchenObjectSO()))
                     {
@@ -52,12 +53,7 @@ public class Kitchen : KitchenObjHolder, IInteractor
                 }
                 else
                 {
-                    // WARNING : Please! Deep Copy this!
-                    KitchenObject kitchenObjectTemp = kitchenObj.Clone();
-
-                    SetKitchenObj(objOnHand);
-                    Player.Instance.ClearKitchenObj();
-                    Player.Instance.SetKitchenObj(kitchenObjectTemp);
+                    SwapObject(objOnHand);
                 }
             }
         }

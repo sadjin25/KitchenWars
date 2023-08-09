@@ -37,6 +37,7 @@ public class KitchenObject : MonoBehaviour
         kitchen = kitchenToSet;
         transform.parent = kitchen.GetKitchenObjLocation();    // transform parent? : Kitchen Object Instance.
         transform.localPosition = Vector3.zero;
+        kitchenToSet.SetMyKitchenObj(this);
     }
 
     public KitchenObjectSO GetKitchenObjectSO()
@@ -76,5 +77,10 @@ public class KitchenObject : MonoBehaviour
         }
         plateObject = null;
         return false;
+    }
+
+    public void RemoveObjectHolder()
+    {
+        kitchen = null;
     }
 }

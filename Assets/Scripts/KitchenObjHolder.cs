@@ -25,6 +25,7 @@ public abstract class KitchenObjHolder : MonoBehaviour
         return objTransform;
     }
 
+    // two old legacy shits
     public virtual void SetKitchenObj(KitchenObject obj)
     {
         OnObjChanging?.Invoke(this, EventArgs.Empty);
@@ -41,6 +42,12 @@ public abstract class KitchenObjHolder : MonoBehaviour
         GameObject o = Instantiate(so.prefab, objTransform);
         o.GetComponent<KitchenObject>().SetKitchenObjHolder(this);
         kitchenObj = o.GetComponent<KitchenObject>();
+    }
+
+    // Naming Sucks
+    public void SetMyKitchenObj(KitchenObject obj)
+    {
+        kitchenObj = obj;
     }
 
     public virtual void ClearKitchenObj()
@@ -65,5 +72,15 @@ public abstract class KitchenObjHolder : MonoBehaviour
         {
             Destroy(objTransform.GetChild(i).gameObject);
         }
+    }
+
+    public void SwapObject(KitchenObject toSwap)
+    {
+        KitchenObject myObjPointer = kitchenObj;
+        myObjPointer.RemoveObjectHolder();
+        SetMyKitchenObj(toSwap);
+        toSwap.SetKitchenObjHolder(this);
+        Player.Instance.SetMyKitchenObj(myObjPointer);
+        myObjPointer.SetKitchenObjHolder(Player.Instance);
     }
 }
