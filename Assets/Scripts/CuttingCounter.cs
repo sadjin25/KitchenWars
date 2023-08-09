@@ -58,7 +58,6 @@ public class CuttingCounter : KitchenObjHolder, IInteractor, IHasProgress
                 }
             }
             // if player has objOnHand; can't cut!
-            // ERROR : can't swap the item
             else
             {
                 if (objOnHand.TryGetPlate(out PlateObject plateObject))
@@ -76,6 +75,14 @@ public class CuttingCounter : KitchenObjHolder, IInteractor, IHasProgress
                         return;
                     }
                     Player.Instance.ClearKitchenObj();
+                }
+                else
+                {
+                    SwapObject(objOnHand);
+                    OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
+                    {
+                        progressNormalized = 1f
+                    });
                 }
             }
         }
