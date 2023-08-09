@@ -27,6 +27,7 @@ public class KitchenObject : MonoBehaviour
         return kitchen;
     }
 
+    // NOTE : Please! use this with ClearCounter()
     public void SetKitchenObjHolder(KitchenObjHolder kitchenToSet)
     {
         if (kitchenToSet == null)
