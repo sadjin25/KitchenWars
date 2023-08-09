@@ -24,7 +24,7 @@ public class CuttingCounter : KitchenObjHolder, IInteractor, IHasProgress
         // when kitchen is empty, then get the item from objOnHand
         if (!HasKitchenObj() && objOnHand != null)
         {
-            SetKitchenObj(objOnHand);
+            objOnHand.SetKitchenObjHolder(this);
             Player.Instance.ClearKitchenObj();
         }
         // if kitchen has obj
@@ -34,8 +34,7 @@ public class CuttingCounter : KitchenObjHolder, IInteractor, IHasProgress
             {
                 if (IsCuttable(kitchenObj.GetKitchenObjectSO()) == false)
                 {
-                    // ERROR : delete all the progresses of cut.
-                    Player.Instance.SetKitchenObj(kitchenObj);
+                    GetKitchenObj().SetKitchenObjHolder(Player.Instance);
                     ClearKitchenObj();
                 }
                 else

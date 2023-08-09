@@ -91,8 +91,11 @@ public class StoveCounter : KitchenObjHolder, IInteractor, IHasProgress
         // when kitchen is empty, then get the item from objOnHand
         if (!HasKitchenObj() && objOnHand != null)
         {
-            SetKitchenObj(objOnHand);
+            //SetKitchenObj(objOnHand);
+            //Player.Instance.ClearKitchenObj();
+            objOnHand.SetKitchenObjHolder(this);
             Player.Instance.ClearKitchenObj();
+
             if (!IsCookable(objOnHand.GetKitchenObjectSO()))
             {
                 return;
@@ -110,7 +113,9 @@ public class StoveCounter : KitchenObjHolder, IInteractor, IHasProgress
             if (objOnHand == null)
             {
                 // ERROR : delete all the progresses of cut.
-                Player.Instance.SetKitchenObj(kitchenObj);
+                //Player.Instance.SetKitchenObj(kitchenObj);
+                GetKitchenObj().SetKitchenObjHolder(Player.Instance);
+                ClearKitchenObj();
                 state = State.Idle;
                 OnStateChanged?.Invoke(this, new OnStateChangedEventArgs { state = state });
                 OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
