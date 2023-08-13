@@ -19,6 +19,7 @@ public class DeliveryCounter : KitchenObjHolder, IInteractor
         {
             if (objOnHand.TryGetPlate(out PlateObject plateObject))
             {
+                DeliveryManager.Instance.DeliveryRecipe(plateObject);
                 Player.Instance.ClearKitchenObj();
             }
         }

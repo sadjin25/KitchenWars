@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8270db7f18a9344a79fa3e1c36785f, type: 3}
+  m_Name: Giant Burger
+  m_EditorClassIdentifier: 
+  kitchenObjectSOList:
+  - {fileID: 11400000, guid: bd38de7710dced844a0f3e2fbc9cf8bd, type: 2}
+  - {fileID: 11400000, guid: 6c60621a06bef3f4d94e8a52a5201756, type: 2}
+  - {fileID: 11400000, guid: b86c1d645f85a734fb6a2c8def80fb0e, type: 2}
+  - {fileID: 11400000, guid: 67529f356c49a9a4bae34a8aee630f9c, type: 2}
+  - {fileID: 11400000, guid: 6d528ad81a4967446952b68c43d7475b, type: 2}
+  recipeName: Giant Burger
