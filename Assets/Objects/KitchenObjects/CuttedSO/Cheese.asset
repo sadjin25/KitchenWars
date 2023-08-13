@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Cheese
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 225398cae87d66f42b3ccb1e38e65d27, type: 2}
-  output: {fileID: 11400000, guid: 67529f356c49a9a4bae34a8aee630f9c, type: 2}
+  output: {fileID: 11400000, guid: b86c1d645f85a734fb6a2c8def80fb0e, type: 2}
   cuttingCnt: 3
