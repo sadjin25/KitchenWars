@@ -5,10 +5,12 @@ using System;
 
 public class DeliveryCounter : KitchenObjHolder, IInteractor
 {
+    public static DeliveryCounter Instance { get; private set; }
     public event EventHandler OnInteract;
 
     void Awake()
     {
+        Instance = this;
         KitchenObjHolderInit();
     }
 
