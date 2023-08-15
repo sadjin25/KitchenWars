@@ -70,6 +70,7 @@ public class Player : KitchenObjHolder
 
     void OnInputInteraction(object sender, EventArgs e)
     {
+        if (!GameManager.Instance.IsGamePlaying()) return;
         if (selectedInteractor != null)
         {
             selectedInteractor.Interact(kitchenObj);
