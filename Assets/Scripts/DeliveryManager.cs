@@ -9,6 +9,7 @@ public class DeliveryManager : MonoBehaviour
 
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
+    public event EventHandler OnRecipeFailed;
 
     [SerializeField] RecipeListSO recipeListSO;
     List<RecipeSO> waitingRecipeSOList;
@@ -48,9 +49,9 @@ public class DeliveryManager : MonoBehaviour
         {
             RecipeSO waitingRecipeSO = waitingRecipeSOList[i];
 
-            bool plateContentsMatchesRecipe = true;
             if (waitingRecipeSO.kitchenObjectSOList.Count == plateObject.GetKitchenObjectSOList().Count)
             {
+                bool plateContentsMatchesRecipe = true;
                 foreach (KitchenObjectSO recipeKitchenObjectSO in waitingRecipeSO.kitchenObjectSOList)
                 {
                     bool ingredientFound = false;
@@ -67,14 +68,15 @@ public class DeliveryManager : MonoBehaviour
                         plateContentsMatchesRecipe = false;
                     }
                 }
-            }
-            if (plateContentsMatchesRecipe)
-            {
-                waitingRecipeSOList.RemoveAt(i);
-                OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                return;
+                if (plateContentsMatchesRecipe)
+                {
+                    waitingRecipeSOList.RemoveAt(i);
+                    OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                    return;
+                }
             }
         }
+        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
     }
 
     public List<RecipeSO> GetWaitingRecipeSOList()
