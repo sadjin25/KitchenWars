@@ -21,13 +21,21 @@ public class GameManager : MonoBehaviour
     float gamePlayingTimer = 60f;
     readonly float gamePlayingMaxTime = 60f;
 
+    bool isGamePaused = false;
+
     public event EventHandler OnStateChanged;
+    public event EventHandler OnPause;
 
     void Awake()
     {
         Instance = this;
         state = State.WaitingToStart;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    void Start()
+    {
+        GameInputs.Instance.OnPauseAction += OnPauseAction;
     }
 
     void Update()
@@ -67,6 +75,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnPauseAction(object s, EventArgs e)
+    {
+        TogglePause();
+    }
+
     public bool IsGamePlaying()
     {
         return state == State.GamePlaying;
@@ -82,6 +95,11 @@ public class GameManager : MonoBehaviour
         return state == State.GameOver;
     }
 
+    public bool IsGamePaused()
+    {
+        return isGamePaused;
+    }
+
     public float GetCountdownTimer()
     {
         return countdownToStartTimer;
@@ -90,5 +108,19 @@ public class GameManager : MonoBehaviour
     public float GetGamePlayingTimeRatio()
     {
         return 1 - (gamePlayingTimer / gamePlayingMaxTime);
+    }
+
+    public void TogglePause()
+    {
+        isGamePaused = !isGamePaused;
+        OnPause?.Invoke(this, EventArgs.Empty);
+        if (isGamePaused)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 }
